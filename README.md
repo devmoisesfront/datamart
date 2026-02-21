@@ -9,8 +9,7 @@ Página de login + dashboard que incrusta un reporte de Power BI.
 ## Uso
 1) Abre `Index.html` en el navegador.
 2) Ingresa las credenciales:
-   - Usuario: `admin@acme.com`
-   - Contraseña: `admin123`
+
 3) Presiona **Entrar** o usa **Enter** en la contraseña.
 4) Dentro del dashboard puedes ver el reporte y cerrar sesión con **Cerrar sesión**.
 
