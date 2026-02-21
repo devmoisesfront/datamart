@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Datamart</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/normalize.css/normalize.css" />
+  <style>
+    :root {
+      --bg: #0f172a;
+      --card: #0b1020;
+      --accent: #26c6da;
+      --accent-2: #f59e0b;
+      --text: #e6edf7;
+      --muted: #8fa0c2;
+      --border: rgba(255, 255, 255, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Space Grotesk", system-ui, sans-serif;
+      background: radial-gradient(circle at 20% 20%, #112040 0, #0f172a 40%, #0a0f1f 100%);
+      color: var(--text);
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+    }
+    .glass {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 15px 60px rgba(0, 0, 0, 0.35);
+      border-radius: 18px;
+    }
+    .layout {
+      width: min(1400px, 100%);
+      display: grid;
+      gap: 24px;
+    }
+    h1, h2 { margin: 0; }
+    .card {
+      padding: 24px;
+    }
+    .title { font-size: 28px; font-weight: 700; letter-spacing: -0.02em; }
+    .muted { color: var(--muted); font-size: 14px; }
+    .stack { display: grid; gap: 12px; }
+    .btn {
+      border: none;
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      color: #0b1020;
+      background: linear-gradient(120deg, var(--accent), var(--accent-2));
+      transition: transform 120ms ease, box-shadow 120ms ease;
+    }
+    .btn:hover { transform: translateY(-1px); box-shadow: 0 10px 30px rgba(0,0,0,0.25); }
+    .btn:active { transform: translateY(0); }
+    .btn-ghost {
+      border: 1px solid var(--border);
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 12px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: border-color 120ms ease, background 120ms ease;
+    }
+    .btn-ghost:hover { border-color: rgba(255, 255, 255, 0.18); }
+    .input {
+      width: 100%;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      background: #0c1326;
+      color: var(--text);
+      font-size: 15px;
+      outline: none;
+      transition: border-color 120ms ease;
+    }
+    .input:focus { border-color: var(--accent); }
+    .login {
+      max-width: 420px;
+      margin: 0 auto;
+      text-align: left;
+      animation: rise 420ms ease;
+    }
+    @keyframes rise { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    .hidden { display: none !important; }
+    .dashboard {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 20px;
+      align-items: start;
+      animation: fade 340ms ease;
+    }
+    @keyframes fade { from { opacity: 0; } to { opacity: 1; } }
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 12px;
+      border-radius: 999px;
+      background: rgba(38, 198, 218, 0.12);
+      border: 1px solid rgba(38, 198, 218, 0.35);
+      color: var(--text);
+      font-weight: 600;
+      font-size: 14px;
+    }
+    .embed {
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      overflow: hidden;
+      background: #0c1326;
+    }
+    .embed iframe {
+      display: block;
+      width: 100%;
+      height: 520px;
+      border: none;
+    }
+
+    @media (max-width: 720px) {
+      body { padding: 16px; }
+      .card { padding: 20px; }
+      .title { font-size: 24px; }
+      .btn, .btn-ghost { width: 100%; }
+      .embed iframe { height: 420px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <div id="login-card" class="glass card login">
+      <div class="stack">
+        <div class="pill">Acceso seguro</div>
+        <div>
+          <div class="title">Inicia sesión</div>
+          <div class="muted">Ingresa tus credenciales para continuar.</div>
+        </div>
+        <label class="stack">
+          <span class="muted">Correo</span>
+          <input id="email" class="input" type="email" placeholder="admin@acme.com" />
+        </label>
+        <label class="stack">
+          <span class="muted">Contraseña</span>
+          <input id="password" class="input" type="password" placeholder="••••••••" />
+        </label>
+        <button id="login-btn" class="btn">Entrar</button>
+        <div id="login-msg" class="muted"></div>
+      </div>
+    </div>
+
+    <div id="dashboard" class="dashboard hidden">
+      <div class="glass card stack">
+        <div class="stack" style="gap: 8px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; gap:12px;">
+            <div class="pill">Sesión activa</div>
+            <button id="logout-btn" class="btn-ghost">Cerrar sesión</button>
+          </div>
+          <div class="title">Dashboard</div>
+          <div class="muted">Acceso verificado</div>
+        </div>
+        <div class="stack">
+          <div class="title" style="font-size:20px;">Ver dashboard</div>
+          <div class="embed">
+            <iframe title="REPORT1" src="https://app.powerbi.com/view?r=eyJrIjoiYzBjYWJmNzUtMTZlYy00NzllLWE2ZmUtOWE4YjQ2N2JjMTY2IiwidCI6Ijg1MzM5YzBiLWFlMjUtNGZmYy05NTM4LWY1N2YyNjRlM2QxZCJ9&pageName=d56ce1c26309a741f756" frameborder="0" allowfullscreen="true"></iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const validUser = { email: "admin@acme.com", pass: "admin123", name: "Admin Principal" };
+    const loginCard = document.getElementById("login-card");
+    const dashboard = document.getElementById("dashboard");
+    const loginMsg = document.getElementById("login-msg");
+    const email = document.getElementById("email");
+    const password = document.getElementById("password");
+    const loginBtn = document.getElementById("login-btn");
+    const logoutBtn = document.getElementById("logout-btn");
+
+    function showMessage(msg, ok = false) {
+      loginMsg.textContent = msg;
+      loginMsg.style.color = ok ? "#7ee0b8" : "#f7a6a6";
+    }
+
+    function doLogin() {
+      const mail = email.value.trim();
+      const pass = password.value.trim();
+      if (mail === validUser.email && pass === validUser.pass) {
+        loginCard.classList.add("hidden");
+        dashboard.classList.remove("hidden");
+        showMessage("");
+      } else {
+        showMessage("Credenciales inválidas. Usa admin@acme.com / admin123");
+      }
+    }
+
+    loginBtn.addEventListener("click", doLogin);
+    password.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") doLogin();
+    });
+
+    window.addEventListener("DOMContentLoaded", () => {
+      email.focus();
+    });
+
+    logoutBtn.addEventListener("click", () => {
+      dashboard.classList.add("hidden");
+      loginCard.classList.remove("hidden");
+      password.value = "";
+      email.focus();
+      showMessage("Sesión cerrada", true);
+    });
+  </script>
+</body>
+</html>
